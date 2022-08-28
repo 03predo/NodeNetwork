@@ -1,0 +1,13 @@
+RootNode/.vscode/
+RootNode/build/
+RootNode/managed_components/
+RootNode/main/.vscode/
+RootNode/main/build/
+RootNode/wifi.py
+RootNode/mock_client.py
+RootNode/dependencies.lock
+
+BranchNode/.vscode/
+BranchNode/build/
+BranchNode/main/.vscode/
+BranchNode/main/build/
