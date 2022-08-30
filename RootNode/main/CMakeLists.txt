@@ -1,3 +1,2 @@
-idf_component_register(#SRC_DIRS "src" "../../public/src"
-                    SRCS "src/main.c" "src/root_node.c" "src/wifi.c" "src/spi_lcd.c" "../../public/src/node_network.c"
-                    INCLUDE_DIRS "inc" "../../public/inc")
+idf_component_register(SRC_DIRS "src" "../jenkins/workspace/NodeNetwork/NodeNetworkpublic/src"
+                    INCLUDE_DIRS "inc" "../jenkins/workspace/NodeNetwork/NodeNetworkpublic/inc")
