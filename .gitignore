@@ -3,6 +3,7 @@ RootNode/build/
 RootNode/managed_components/
 RootNode/main/.vscode/
 RootNode/main/build/
+RootNode/__pycache__/
 RootNode/wifi.py
 RootNode/mock_client.py
 RootNode/dependencies.lock
