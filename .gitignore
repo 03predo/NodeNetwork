@@ -7,6 +7,7 @@ RootNode/__pycache__/
 RootNode/wifi.py
 RootNode/mock_client.py
 RootNode/dependencies.lock
+RootNode/main/CMakeLists.txt
 
 BranchNode/.vscode/
 BranchNode/build/
