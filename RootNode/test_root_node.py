@@ -25,10 +25,6 @@ class TestBasicFunctionality:
 
     def test_timeout(self, dut):
         dut.expect('waiting on poll')
-        time.sleep(10)
-        name = "RootNode"
-        password = "RootPass"
-        os.system("nmcli d wifi connect {} password {}".format(name, password))
         msg_sock, ctrl_sock = self.init_branch(dut)
         dut.expect('timeout occured')
         dut.expect('sending KEEP_ALIVE to')
