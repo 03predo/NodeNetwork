@@ -25,6 +25,8 @@ class TestBasicFunctionality:
 
     def test_timeout(self, dut):
         dut.expect('waiting on poll')
+        time.sleep(5)
+        os.system('sudo /home/predo/wifi_connect.sh')
         msg_sock, ctrl_sock = self.init_branch(dut)
         dut.expect('timeout occured')
         dut.expect('sending KEEP_ALIVE to')
