@@ -25,7 +25,7 @@ class TestBasicFunctionality:
 
     def test_timeout(self, dut):
         dut.expect('waiting on poll')
-        time.sleep(3)
+        time.sleep(10)
         name = "RootNode"
         password = "RootPass"
         os.system("nmcli d wifi connect {} password {}".format(name, password))
