@@ -1,5 +1,5 @@
 import socket
-import os
+import subprocess
 import time
 class TestBasicFunctionality:
     def init_branch(self, dut):
@@ -25,8 +25,10 @@ class TestBasicFunctionality:
 
     def test_timeout(self, dut):
         dut.expect('waiting on poll')
-        time.sleep(20)
-        os.system('sudo /home/predo/wifi_connect.sh')
+        while(True):
+            output = subprocess.getoutput('sudo /home/predo/wifi_connect.sh')
+            if('successfully activated' in output):
+                break
         msg_sock, ctrl_sock = self.init_branch(dut)
         dut.expect('timeout occured')
         dut.expect('sending KEEP_ALIVE to')
