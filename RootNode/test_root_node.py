@@ -1,5 +1,6 @@
 import socket
 import os
+import time
 class TestBasicFunctionality:
     def init_branch(self, dut):
         msg_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -24,6 +25,7 @@ class TestBasicFunctionality:
 
     def test_timeout(self, dut):
         dut.expect('waiting on poll')
+        time.sleep(3)
         name = "RootNode"
         password = "RootPass"
         os.system("nmcli d wifi connect {} password {}".format(name, password))
