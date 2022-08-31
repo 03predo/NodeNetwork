@@ -1,5 +1,5 @@
 #include "spi_lcd.h"
-#include "../../public/inc/node_network.h"
+#include "node_network.h"
 #include "driver/gptimer.h"
 
 #ifndef ROOT_NODE
