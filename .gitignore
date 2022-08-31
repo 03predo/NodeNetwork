@@ -13,3 +13,4 @@ BranchNode/.vscode/
 BranchNode/build/
 BranchNode/main/.vscode/
 BranchNode/main/build/
+BranchNode/main/CMakeLists.txt
