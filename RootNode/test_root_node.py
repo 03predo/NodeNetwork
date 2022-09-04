@@ -25,10 +25,12 @@ class TestBasicFunctionality:
 
     def test_timeout(self, dut):
         dut.expect('waiting on poll')
-        while(True):
+        err = 0
+        while(err < 100):
             output = subprocess.getoutput('sudo /home/predo/root_connect.sh')
             if('successfully activated' in output):
                 break
+            err += 1
         msg_sock, ctrl_sock = self.init_branch(dut)
         dut.expect('timeout occured')
         dut.expect('sending KEEP_ALIVE to')
