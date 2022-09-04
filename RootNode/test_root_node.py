@@ -26,7 +26,7 @@ class TestBasicFunctionality:
     def test_timeout(self, dut):
         dut.expect('waiting on poll')
         while(True):
-            output = subprocess.getoutput('sudo /home/predo/wifi_connect.sh')
+            output = subprocess.getoutput('sudo /home/predo/root_connect.sh')
             if('successfully activated' in output):
                 break
         msg_sock, ctrl_sock = self.init_branch(dut)
