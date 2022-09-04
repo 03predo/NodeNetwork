@@ -1,12 +1,12 @@
 #include "../inc/node_network.h"
 
 int hex_to_int(char c){
-    if(c < 48 || (c > 57 && c < 65) || c > 70){
+    if(c < '0' || (c > '9' && c < 'a') || c > 'f'){
         return -1;
-    }else if(c < 58){
+    }else if(c <= '9'){
         return (c - '0');
-    }else if(c > 40){
-        return (c - 'A' + 10);
+    }else if(c >= 'a'){
+        return (c - 'a' + 10);
     }
     return -1;
 }

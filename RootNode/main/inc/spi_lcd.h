@@ -57,6 +57,7 @@ typedef struct branch_widget {
     lv_obj_t * label_base;
     lv_obj_t * label_led;
     lv_obj_t * label_offline;
+    lv_obj_t * label_temp;
 }branch_widget;
 
 lv_disp_t * spi_lcd_init(TaskHandle_t xlv_timer);

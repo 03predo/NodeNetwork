@@ -159,7 +159,7 @@ void lvgl_branch_base(lv_disp_t * disp, branch_widget * bw, int offset){
     lv_obj_align(bw->label_base, LV_ALIGN_TOP_MID, 0, 0);;
     // create led
     bw->led = lv_led_create(bw->base);
-    lv_obj_align(bw->led, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_align(bw->led, LV_ALIGN_CENTER, 0, -20);
     lv_led_set_color(bw->led, lv_color_hex(LED_ON_LGHT_COLOR));
     lv_style_init(&bw->led_style);
     lv_obj_add_style(bw->led, &bw->led_style, LV_PART_MAIN);
@@ -169,6 +169,12 @@ void lvgl_branch_base(lv_disp_t * disp, branch_widget * bw, int offset){
     bw->label_led = lv_label_create(bw->led);
     lv_obj_align(bw->label_led, LV_ALIGN_CENTER, 0, 0);
     led_off(bw);
+
+    bw->label_temp = lv_label_create(bw->base);
+    lv_label_set_text(bw->label_temp, "Temp: NA");
+    lv_obj_align(bw->label_temp, LV_ALIGN_BOTTOM_MID, 0, -30);
+    lv_obj_add_flag(bw->label_temp, LV_OBJ_FLAG_HIDDEN);
+
     // create offline label
     bw->label_offline = lv_label_create(bw->base);
     lv_label_set_text(bw->label_offline, "Offline");
@@ -178,10 +184,12 @@ void lvgl_branch_base(lv_disp_t * disp, branch_widget * bw, int offset){
 
 void lvgl_branch_online(branch_widget * bw){
     lv_obj_clear_flag(bw->led, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(bw->label_temp, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(bw->label_offline, LV_OBJ_FLAG_HIDDEN);
 }
 
 void lvgl_branch_offline(branch_widget * bw){
     lv_obj_add_flag(bw->led, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(bw->label_temp, LV_OBJ_FLAG_HIDDEN);
     lv_obj_clear_flag(bw->label_offline, LV_OBJ_FLAG_HIDDEN);
 }

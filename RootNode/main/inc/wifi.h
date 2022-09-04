@@ -20,8 +20,8 @@
 #ifndef WIFI_H
 #define WIFI_H
 
-#define WIFI_STA_SSID       "BELL533"
-#define WIFI_STA_PASS       "23F5274A"
+#define WIFI_STA_SSID       "unit501"
+#define WIFI_STA_PASS       "Waterloo2022"
 #define MAXIMUM_RETRY       5
 #define WIFI_CONNECTED_BIT  BIT0
 #define WIFI_FAIL_BIT       BIT1

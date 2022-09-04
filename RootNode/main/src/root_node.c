@@ -210,17 +210,20 @@ static void msg_handler(root_node * rn, node_msg * nm, int fd){
             }
             break;
         case POST:
-            int signal_name = nm->value >> 4;
-            int signal_value = nm->value & 15;
-            ESP_LOGI(TAG, LOG_FMT("received %s %s %d from BranchID=%d"), mt_string((enum msg_type) nm->msg_type), sn_string(signal_name), signal_value,NODE_ID(nm->node_id));
+            int signal_name = nm->value >> 8;
+            int signal_value = nm->value & 255;
+            ESP_LOGI(TAG, LOG_FMT("received %s %s %d from BranchID=%d"), mt_string((enum msg_type) nm->msg_type), sn_string(signal_name), signal_value, NODE_ID(nm->node_id));
             switch(signal_name){
                 case BUTTON:
                     if((nm->value & 15) == 1){
-                led_on(rn->bw[NODE_INDX(nm->node_id)]);
-                }else{
-                    led_off(rn->bw[NODE_INDX(nm->node_id)]);
-                }
-                break;
+                    led_on(rn->bw[NODE_INDX(nm->node_id)]);
+                    }else{
+                        led_off(rn->bw[NODE_INDX(nm->node_id)]);
+                    }
+                    break;
+                case TEMP:
+                    lv_label_set_text_fmt(rn->bw[NODE_INDX(nm->node_id)]->label_temp, "Temp: %d", signal_value);
+                    break;
             }
             memset(send_msg, 0, sizeof(send_msg));
             gptimer_set_raw_count(rn->node_db[NODE_INDX(nm->node_id)].timer, 0);
