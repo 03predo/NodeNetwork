@@ -23,7 +23,7 @@
 #define ROOT_ID 0
 #define ROOT_IP "192.168.2.1"
 #define NETWORK_PORT 99
-#define POLL_TIMEOUT 2 * 60 * 1000  // in milliseconds
+#define POLL_TIMEOUT 60 * 1000  // in milliseconds
 #define KEEP_ALIVE_TIMEOUT 3 * 1000
 #define SOCKET_TIMEOUT 10 * 1000000 // in microseconds
 

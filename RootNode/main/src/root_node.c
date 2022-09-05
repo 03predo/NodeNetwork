@@ -257,7 +257,7 @@ void poll_db(void * parameters){
             if(rn->fd_db[i].revents == 0){
                 continue;
             }else if(rn->fd_db[i].revents != POLLIN){
-                ESP_LOGE(TAG, LOG_FMT("%d revents=%d"), i, rn->fd_db[i].revents);
+                ESP_LOGE(TAG, LOG_FMT("%d revents=%X"), i, rn->fd_db[i].revents);
                 rn->end_server = true;
                 break;
             }
