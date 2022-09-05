@@ -16,7 +16,7 @@ class TestBasicFunctionality:
     def init_branch(self, dut, branch_no):
         err = 0
         while(err < 100):
-            output = subprocess.getoutput('sudo /home/predo/root_connect.sh')
+            output = subprocess.getoutput('sudo /home/predo/predoCode/shell_scripts/root_connect.sh')
             if('successfully activated' in output):
                 break
             err += 1
