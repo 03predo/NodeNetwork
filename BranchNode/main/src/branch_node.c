@@ -2,7 +2,7 @@
 
 static const char *TAG = "branch_node";
 
-static void shutdown_handler(void * parameters);
+static void shutdown_branch(branch_node * bn);
 static void msg_handler(branch_node * bn, node_msg * nm);
 static void post_func(branch_node * bn, int node_id, int type, int value);
 static void poll_ctrl(void * parameters);
@@ -15,23 +15,17 @@ void IRAM_ATTR button_isr_handler(void* parameters) {
     xTaskResumeFromISR(bn->xbutton_handler);
 }
 
-static void shutdown_handler(void * parameters){
-    branch_node * bn = (branch_node *) parameters;
-    vTaskSuspend(NULL);
+static void shutdown_branch(branch_node * bn){
     bn->end_node = true;
-    gpio_isr_handler_remove(39);
+    gpio_isr_handler_remove(BUTTON_PIN);
     vTaskDelete(bn->xbutton_handler);
     vTaskDelete(bn->xtemp_handler);
-    xSemaphoreTake(bn->ctrl_mutex, portMAX_DELAY);
-    vTaskDelete(bn->xpoll_ctrl);
-    xSemaphoreGive(bn->ctrl_mutex);
     xSemaphoreTake(bn->msg_mutex, portMAX_DELAY);
     xSemaphoreGive(bn->msg_mutex);
     close(bn->ctrl_fd);
     close(bn->msg_fd);
     ESP_LOGI(TAG, LOG_FMT("branch shutdown complete"));
-    vTaskDelete(NULL);
-
+    vTaskDelete(bn->xpoll_ctrl);
 }
 
 static void msg_handler(branch_node * bn, node_msg * nm){
@@ -65,9 +59,7 @@ static void msg_handler(branch_node * bn, node_msg * nm){
             break;
         case SHUTDOWN:
             ESP_LOGI(TAG, LOG_FMT("received %s from BranchID=%d"), mt_string((enum msg_type) nm->msg_type), NODE_ID(nm->node_id));
-            vTaskResume(bn->xshutdown);
-            
-
+            shutdown_branch(bn);
     }
 }
 
@@ -98,12 +90,18 @@ static void poll_ctrl(void * parameters){
         fd_db[0].fd = bn->ctrl_fd;
         fd_db[0].events = POLLIN;
         ESP_LOGI(TAG, "waiting on poll");
-        int ret = poll(fd_db, 1, 2 * 60 * 1000);
+        int ret = poll(fd_db, 1, POLL_TIMEOUT);
         if(ret < 0){
             ESP_LOGE(TAG, LOG_FMT("error in poll (%d)"), errno);
             break;
         }else if(ret == 0){
             ESP_LOGW(TAG, LOG_FMT("timeout occured"));
+            xSemaphoreGive(bn->ctrl_mutex);
+            if(bn->end_node){
+                ESP_LOGI(TAG, LOG_FMT("suspending"));
+                vTaskSuspend(NULL);
+            }
+            continue;
         }
         char buf[20];
         ret = recv(bn->ctrl_fd, buf, sizeof(buf), 0);
@@ -175,7 +173,6 @@ esp_err_t start_node(branch_node * bn, const char * branch_ip){
     bn->msg_fd = -1;
     bn->ctrl_fd = -1;
     bn->end_node = false;
-    bn->xshutdown = NULL;
     bn->xbutton_handler = NULL;
     bn->xpoll_ctrl = NULL;
     bn->xtemp_handler = NULL;
@@ -253,7 +250,6 @@ esp_err_t start_node(branch_node * bn, const char * branch_ip){
     bn->msg_mutex = xSemaphoreCreateMutex();
     bn->ctrl_mutex = xSemaphoreCreateMutex();
     xTaskCreate(temp_handler, "temp_handler", 5000, (void*)bn, 1, &bn->xtemp_handler);
-    xTaskCreate(shutdown_handler, "shutdown", 10000, (void*)bn, 1, &bn->xshutdown);
     xTaskCreate(button_handler, "button_handler", 4000, (void*)bn, 2, &bn->xbutton_handler);
     xTaskCreate(poll_ctrl, "poll_ctrl", 10000, (void*)bn, 1, &bn->xpoll_ctrl);
     return ESP_OK;

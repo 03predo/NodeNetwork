@@ -29,7 +29,6 @@ typedef struct branch_node {
     SemaphoreHandle_t ctrl_mutex;
     TaskHandle_t xpoll_ctrl;
     TaskHandle_t xbutton_handler;
-    TaskHandle_t xshutdown;
     TaskHandle_t xtemp_handler;
 }branch_node;
 
