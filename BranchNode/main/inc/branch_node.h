@@ -9,8 +9,8 @@
 #define CTRL_ID(X) (X<<1)
 #define NODE_ID(X) X >> 1
 #define MAX_SIG 2
-#define BUTTON_PIN 39
-#define TEMP_PIN GPIO_NUM_4
+#define BUTTON_PIN 19
+#define TEMP_PIN 21
 
 typedef struct signal_data {
     char name[20];

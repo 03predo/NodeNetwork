@@ -139,7 +139,7 @@ static void button_handler(void * parameters){
         xSemaphoreGive(bn->msg_mutex);
         ESP_LOGI(TAG, LOG_FMT("BUTTON HANDLER %d"), bn->button_state);
         while(true){
-            if(gpio_get_level(39) == 0){
+            if(gpio_get_level(BUTTON_PIN) == 0){
                 bn->button_state = false;
                 xSemaphoreTake(bn->msg_mutex, portMAX_DELAY);
                 post_func(bn, MSG_ID(bn->node_id), POST, bn->button_state);

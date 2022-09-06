@@ -101,8 +101,8 @@ class TestBasicFunctionality:
             dut.expect('received POST BUTTON '+ str(rand_button) +' from BranchID=' + str(rand_branch + 1))
             assert('X0 X0 X1;' in branches[rand_branch]['msg'].recv(20).decode())
             rand_branch = randint(0, 2)
-            self.send_msg(branches[rand_branch]['msg'], rand_branch + 1, ' X3 X10' + str(rand_temp) + ';')
-            dut.expect('received POST TEMP '+ str(rand_temp) +' from BranchID=' + str(rand_branch + 1))
+            self.send_msg(branches[rand_branch]['msg'], rand_branch + 1, ' X3 X11' + str(rand_temp) + ';')
+            dut.expect('received POST TEMP '+ str(rand_temp + 16) +' from BranchID=' + str(rand_branch + 1))
             assert('X0 X0 X1;' in branches[rand_branch]['msg'].recv(20).decode())
         for i in range(3):
             self.send_msg(branches[i]['msg'], i + 1, ' X3 X0;')
