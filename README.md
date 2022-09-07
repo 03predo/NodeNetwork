@@ -67,4 +67,3 @@ Here is the latest version of the jenkins script for running tests.
             }
         }
     }
-confirmation
