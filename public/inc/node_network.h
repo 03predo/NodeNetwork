@@ -24,8 +24,9 @@
 #define ROOT_IP "192.168.2.1"
 #define NETWORK_PORT 99
 #define POLL_TIMEOUT 60 * 1000  // in milliseconds
-#define KEEP_ALIVE_TIMEOUT 3 * 1000
-#define SOCKET_TIMEOUT 10 * 1000000 // in microseconds
+#define SOCKET_TIMEOUT 10 * 1000000 // in microseconds, how long root will wait on inactive branch to send KEEP_ALIVE
+#define KEEP_ALIVE_TIMEOUT 3 * 1000 //in milliseconds, how long root will wait after sending KEEP_ALIVE till deleting branch
+
 
 enum msg_type {
     RECV_COMPLETE = 0,
